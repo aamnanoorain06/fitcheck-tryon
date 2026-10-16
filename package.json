@@ -1,0 +1,29 @@
+{
+  "name": "fitcheck-tryon",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"node server.mjs\" \"vite --host 0.0.0.0\"",
+    "build": "vite build",
+    "build:vercel": "vite build --mode vercel",
+    "lint": "oxlint",
+    "test": "node --test",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
+    "concurrently": "^9.2.0",
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "vite": "^8.3.0"
+  }
+}
