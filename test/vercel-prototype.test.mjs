@@ -4,6 +4,9 @@ import test from 'node:test'
 
 const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'))
 const vercelConfig = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'))
+const serverSource = readFileSync(new URL('../server.mjs', import.meta.url), 'utf8')
+const appSource = readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8')
+const schemaSource = readFileSync(new URL('../supabase/schema.sql', import.meta.url), 'utf8')
 
 test('Vercel prototype uses a separate build command and Express framework preset', () => {
   assert.equal(packageJson.scripts.dev, 'concurrently "node server.mjs" "vite --host 0.0.0.0"')
@@ -25,4 +28,10 @@ test('Vercel prototype marks private API responses as non-cacheable', () => {
   const apiHeaders = vercelConfig.headers.find(({ source }) => source === '/api/:path*')
   assert.ok(apiHeaders)
   assert.deepEqual(apiHeaders.headers, [{ key: 'Cache-Control', value: 'private, no-store' }])
+})
+
+test('server, browser, and schema use the same Storage bucket by default', () => {
+  assert.match(serverSource, /SUPABASE_STORAGE_BUCKET\?\.trim\(\) \|\| 'try on'/)
+  assert.match(appSource, /const BUCKET = 'try on'/)
+  assert.match(schemaSource, /values \('try on', 'try on', false/)
 })

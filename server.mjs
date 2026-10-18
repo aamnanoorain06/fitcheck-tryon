@@ -16,7 +16,7 @@ dotenv.config({ path: fileURLToPath(new URL('./.env', import.meta.url)) })
 
 const app = express()
 const port = Number(process.env.PORT || 3001)
-const bucket = process.env.SUPABASE_STORAGE_BUCKET?.trim() || 'tryon'
+const bucket = process.env.SUPABASE_STORAGE_BUCKET?.trim() || 'try on'
 const defaultPrompt = "Take the person from image 1 and dress them in the item shown in image 2, keeping the person's pose, facial identity, hair, body proportions, lighting, and background unchanged, only replacing or adding the item with realistic color, fabric, and fit for a seamless, photorealistic try-on."
 const maxImageBytes = 10 * 1024 * 1024
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
