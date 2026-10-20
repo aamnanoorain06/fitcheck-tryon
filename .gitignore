@@ -27,5 +27,10 @@ dist-ssr
 *.sln
 *.sw?
 
-#Vercel 
+# Vercel
 .vercel
+
+# Environment files and secrets
+.env
+.env.*
+!.env.example

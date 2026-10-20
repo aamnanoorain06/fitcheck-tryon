@@ -39,7 +39,12 @@ function sendRequest(path, { method = 'GET', body } = {}) {
       response.on('data', (chunk) => { responseBody += chunk })
       response.on('end', () => {
         try {
-          resolve({ status: response.statusCode, body: responseBody ? JSON.parse(responseBody) : null })
+          const isJson = response.headers['content-type']?.includes('application/json')
+          resolve({
+            status: response.statusCode,
+            headers: response.headers,
+            body: responseBody ? isJson ? JSON.parse(responseBody) : responseBody : null,
+          })
         } catch (error) {
           reject(error)
         }
@@ -68,6 +73,12 @@ async function withoutExternalFetch(operation) {
 }
 
 const validGuestId = '123e4567-e89b-42d3-a456-426614174000'
+
+test('root route redirects to the built Vite entry while health remains an API route', async () => {
+  const response = await sendRequest('/')
+  assert.equal(response.status, 307)
+  assert.equal(response.headers.location, '/_fitcheck/index.html')
+})
 
 test('health endpoint responds from the exported Express handler', async () => {
   const response = await sendRequest('/api/health')

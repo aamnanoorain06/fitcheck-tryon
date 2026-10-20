@@ -220,6 +220,10 @@ async function markGenerationFailed(supabase, generation, guestId, message) {
   Object.assign(generation, data)
 }
 
+app.get('/', (_request, response) => {
+  response.redirect(307, '/_fitcheck/index.html')
+})
+
 app.get('/api/health', (_request, response) => {
   response.json({ ok: true, name: 'fitcheck-tryon' })
 })
